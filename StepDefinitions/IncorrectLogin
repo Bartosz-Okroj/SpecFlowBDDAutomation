@@ -1,1 +1,100 @@
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using NUnit.Framework;
+using Test.Pages;
 
+namespace Test.StepDefinitions
+{
+    [Binding]
+    public sealed class IncorrectLogin_Bademail
+    {
+        private IWebDriver driver;
+        private LoginPage loginPage;
+
+        public IncorrectLogin_Bademail(IWebDriver driver)
+        {
+             this.driver = driver;
+             this.loginPage = new LoginPage(driver);
+        }
+
+
+        
+
+        [When(@"Fill the login and password field - inncorect email")]
+        public void WhenFillTheLoginAndPasswordField_InncorectEmail()
+        { 
+            driver.FindElement(By.Id("username")).SendKeys("niematakiegomaileijestbez@");
+            loginPage.Password("password");
+           
+        }
+
+        [When(@"Fill the login and password field - inncorect password")]
+        public void WhenFillTheLoginAndPasswordField_InncorectPassword()
+        {
+            loginPage.Login("username");
+            driver.FindElement(By.Id("password")).SendKeys("niematakiegohasloijuzniema");
+        }
+
+        [When(@"Fill the password field")]
+        public void WhenFillThePasswordField()
+        {
+            loginPage.Password("password");
+        }
+
+        [When(@"Fill the email field")]
+        public void WhenFillTheEmailField()
+        {
+            loginPage.Login("username");
+        }
+
+
+
+
+        [Then(@"User has not logged in")]
+        public void ThenUserHasNotLoggedIn()
+        {
+            IWebElement titleElement = driver.FindElement(By.XPath("//*[@id=\"post-8\"]/div[2]/ul/li"));
+            string titleText = titleElement.Text;
+            Console.WriteLine(titleText);
+            string expectedTitleText = "ERROR: Invalid username. Lost your password?";
+            Assert.AreEqual(expectedTitleText, titleText, $"Nieprawidłowy tekst tytułu strony. Oczekiwany: {expectedTitleText}. Pobrany: {titleText}");
+        }
+
+        [Then(@"User has not logged in different info")]
+        public void ThenUserHasNotLoggedInDifferentInfo()
+        {
+            IWebElement titleElement = driver.FindElement(By.XPath("//*[@id=\"post-8\"]/div[2]/ul/li"));
+            string titleText = titleElement.Text;
+            Console.WriteLine(titleText);
+            string expectedTitleText = "ERROR: The password you entered for the username testowymail987qwe!@wp.pl is incorrect. Lost your password?";
+            Assert.AreEqual(expectedTitleText, titleText, $"Nieprawidłowy tekst tytułu strony. Oczekiwany: {expectedTitleText}. Pobrany: {titleText}");
+        }
+
+        [Then(@"User has not logged in different infos")]
+        public void ThenUserHasNotLoggedInDifferentInfos()
+        {
+            IWebElement titleElement = driver.FindElement(By.XPath("//*[@id=\"post-8\"]/div[2]/ul/li"));
+            string titleText = titleElement.Text;
+            Console.WriteLine(titleText);
+            string expectedTitleText = "Error: Username is required.";
+            Assert.AreEqual(expectedTitleText, titleText, $"Nieprawidłowy tekst tytułu strony. Oczekiwany: {expectedTitleText}. Pobrany: {titleText}");
+        }
+
+        [Then(@"User has not logged in different infoss")]
+        public void ThenUserHasNotLoggedInDifferentInfoss()
+        {
+            IWebElement titleElement = driver.FindElement(By.XPath("//*[@id=\"post-8\"]/div[2]/ul/li"));
+            string titleText = titleElement.Text;
+            Console.WriteLine(titleText);
+            string expectedTitleText = "ERROR: The password field is empty.";
+            Assert.AreEqual(expectedTitleText, titleText, $"Nieprawidłowy tekst tytułu strony. Oczekiwany: {expectedTitleText}. Pobrany: {titleText}");
+        }
+
+
+
+
+
+
+    }
+
+}
