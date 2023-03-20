@@ -1,1 +1,58 @@
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using NUnit.Framework;
+using Test.Pages;
 
+
+namespace Test.StepDefinitions
+{
+    [Binding]
+    public sealed class CorrectLogin
+    {
+        private IWebDriver driver;
+        private LoginPage loginPage;
+
+        public CorrectLogin(IWebDriver driver)
+        {
+             this.driver = driver;
+             this.loginPage = new LoginPage(driver);
+        }
+
+
+        [Given(@"Open the online shop")]
+        public void GivenOpenTheOnlineShop()
+        {
+            driver.Url = "https://skleptest.pl/my-account/";
+        }
+
+        [When(@"Fill the login and password field")]
+        public void WhenFillTheLoginAndPasswordField()
+        {
+            loginPage.Login("username");
+            loginPage.Password("password");
+        }
+
+        
+        [When(@"Click Login")]
+        public void WhenClickLogin()
+        {
+           loginPage.LoginButton();
+        }
+
+        
+        [Then(@"User has logged in")]
+        public void ThenUserHasLoggedIn()
+        {
+           IWebElement titleElement =  driver.FindElement(By.XPath("//*[@id=\"post-8\"]/div[2]/div/p[1]"));
+           string titleText = titleElement.Text;
+           Console.WriteLine(titleText);
+           string expectedTitleText = "Hello testowymail987qwe (not testowymail987qwe? Log out)";
+           Assert.AreEqual(expectedTitleText, titleText, $"Nieprawidłowy tekst tytułu strony. Oczekiwany: {expectedTitleText}. Pobrany: {titleText}");
+
+
+        }
+
+
+    }
+
+}
