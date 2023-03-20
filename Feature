@@ -1,0 +1,40 @@
+Feature: Login to app
+
+
+
+@Login
+Scenario: Correct login
+	Given Open the online shop
+	When Fill the login and password field
+	And Click Login
+	Then User has logged in
+
+
+Scenario: Incorrect login - Incorrect email
+	Given Open the online shop
+	When Fill the login and password field - inncorect email
+	And Click Login
+	Then User has not logged in
+
+Scenario: Incorrect login - Incorrect password
+	Given Open the online shop
+	When Fill the login and password field - inncorect password
+	And Click Login
+	Then User has not logged in different info
+
+Scenario: Incorrect login - empty fields
+	Given Open the online shop
+	When Click Login
+	Then User has not logged in different infos
+
+Scenario: Incorrect login - empty only email field
+	Given Open the online shop
+	When Fill the password field
+	When Click Login
+	Then User has not logged in different infos
+
+Scenario: Incorrect login - empty only password field
+	Given Open the online shop
+	When Fill the email field
+	When Click Login
+	Then User has not logged in different infoss
