@@ -1,0 +1,50 @@
+using Microsoft.AspNetCore.Hosting;
+using NUnit;
+using OpenQA.Selenium;
+using SeleniumExtras.PageObjects;
+
+
+
+
+
+
+namespace Test.Pages
+{
+    public class LoginPage
+    {
+        private IWebDriver driver;
+
+        public LoginPage(IWebDriver driver)
+        {
+            PageFactory.InitElements(driver, this);
+        }
+
+
+
+        [FindsBy(How = How.Id, Using = "username")]
+        public IWebElement loginField;
+
+        [FindsBy(How = How.Id, Using = "password")]
+        public IWebElement passwordField;
+
+        [FindsBy(How = How.XPath, Using = "//*[@id=\"customer_login\"]/div[1]/form/p[3]/input[3]")]
+        public IWebElement loginButton;
+
+
+
+        public void Login(string username)
+        {
+            loginField.SendKeys("testowymail987qwe!@wp.pl");
+        }
+
+        public void Password(string password)
+        {
+            passwordField.SendKeys("123qwe987poi");
+        }
+
+        public void LoginButton()
+        {
+            loginButton.Click();
+        }
+    }
+}
